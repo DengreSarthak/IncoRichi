@@ -5,9 +5,7 @@ export const ENCRYPTED_ERC20_CONTRACT_ADDRESS =
 
 export const RichVaultFactories = {
   84532: "0x9718c62923ee4f4d6a818a3fe63b041829a3360a",
-} as {
-  [key: number]: `0x${string}`
-}
+} 
 
 export const ENCRYPTEDERC20ABI = encyptedERC20ABI;
 

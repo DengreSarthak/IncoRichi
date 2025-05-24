@@ -31,7 +31,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-, "src/app/createVault/page.js", "src/utils/contractABI/RichVault.js", "src/app/vaults/page.js", "src/app/vault/[id]/page.js"  ],
+, "src/app/createVault/page.js", "src/utils/contractABI/RichVault.js", "src/app/vaults/page.js", "src/app/vault/[id]/page.js", "src/utils/contractAddress.ts"  ],
   "exclude": [
     "node_modules"
   ]

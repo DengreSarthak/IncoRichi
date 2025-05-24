@@ -7,7 +7,7 @@ import { supportedChains } from '@inco/js';
 import { Lightning } from '@inco/js/lite';
 import { config } from '@/utils/config';
 import { RichVaultAbi } from '@/utils/contractABI/RichVault';
-import { Sparkles, User, Users, CheckCircle, XCircle, ArrowRight, Shield } from 'lucide-react';
+import { Sparkles, User, Users, CheckCircle, XCircle, ArrowRight, Trophy } from 'lucide-react';
 
 // Base Sepolia via Inco
 const CHAIN_ID = supportedChains.baseSepolia;
@@ -222,34 +222,134 @@ export default function VaultPage() {
       <div className="pointer-events-none fixed inset-0 z-0" style={{background: 'repeating-linear-gradient(to bottom, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 4px)'}} />
       
       {/* Header */}
-      <header className="flex items-center justify-between w-full max-w-5xl mt-12 mb-8 z-10">
-        <div className="flex items-center gap-3">
-          <Sparkles className="text-[#7ecbff] animate-pulse" size={32} />
-          <span className="font-futuristic text-3xl md:text-4xl text-white font-bold tracking-widest">{vault.name}</span>
+      <header className="w-full max-w-5xl mt-12 mb-8 z-10">
+        <div className="flex flex-col md:flex-row items-center justify-center gap-6">
+          <div className="relative">
+            {/* Glowing background effect */}
+            <div className="absolute -inset-4 bg-gradient-to-r from-[#3673F5]/20 to-[#7ecbff]/20 rounded-2xl blur-xl"></div>
+            
+            {/* Main container */}
+            <div className="relative bg-[#232c3b] rounded-2xl overflow-hidden">
+              {/* Animated gradient border */}
+              <div className="absolute inset-0 bg-gradient-to-r from-[#3673F5] via-[#7ecbff] to-[#3673F5] animate-gradient-x"></div>
+              
+              {/* Content container */}
+              <div className="relative bg-[#232c3b] m-[2px] rounded-2xl px-8 py-6">
+                <div className="flex items-center gap-4">
+                  <div className="bg-gradient-to-r from-[#3673F5] to-[#7ecbff] p-2 rounded-xl">
+                    <Sparkles className="text-white" size={24} />
+                  </div>
+                  <div className="flex flex-col">
+                    <h1 className="font-futuristic text-3xl md:text-4xl text-transparent bg-clip-text bg-gradient-to-r from-white via-[#7ecbff] to-white font-bold tracking-wider">
+                      {vault.name}
+                    </h1>
+                    <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-[#3673F5] to-transparent mt-2"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </header>
 
       {/* Winner Display */}
       {winner && winner !== '0x0000000000000000000000000000000000000000' && (
-        <div className="w-full max-w-5xl mb-8 p-6 bg-[#232c3b] border-2 border-[#3673F5] rounded-2xl shadow-xl z-10">
-          <div className="flex items-center justify-center gap-3">
-            <Shield className="text-[#3673F5]" size={24} />
-            <span className="font-futuristic text-xl text-white font-bold">Winner: {winner.slice(0, 6)}...{winner.slice(-4)}</span>
+        <div className="w-full max-w-5xl mb-8 p-6 bg-gradient-to-r from-amber-900/40 to-yellow-900/40 border-2 border-amber-500 rounded-2xl shadow-xl z-10 relative overflow-hidden">
+          {/* Animated sparkles overlay */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,215,0,0.1)_0%,_transparent_70%)] animate-pulse"></div>
+          </div>
+          <div className="flex flex-col items-center justify-center gap-2 relative">
+            <div className="bg-amber-500/20 p-2 rounded-full mb-2">
+              <Trophy className="text-amber-400" size={24} />
+            </div>
+            <div className="text-center">
+              {address && address.toLowerCase() === winner.toLowerCase() ? (
+                <>
+                  <p className="font-futuristic text-2xl text-amber-300 font-bold mb-1">
+                    🎉 You are the Wealthiest! 🎉
+                  </p>
+                  <p className="font-futuristic text-lg text-amber-200/80">
+                    Congratulations on being the richest in this vault!
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="font-futuristic text-xl text-amber-300 font-bold mb-1">
+                    Winner is {winner.slice(0, 6)}...{winner.slice(-4)}
+                  </p>
+                  <p className="font-futuristic text-lg text-amber-200/80 italic">
+                    But you're the Richest in Kindness ✨
+                  </p>
+                </>
+              )}
+            </div>
           </div>
         </div>
       )}
 
       <div className="w-full max-w-4xl flex flex-col gap-6 z-10">
         {/* Vault Info Box */}
-        <div className="bg-[#232c3b] border-2 border-blue-500 rounded-2xl p-6 shadow-xl flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div>
-            <p className="text-blue-300 font-futuristic text-lg mb-1">Creator: <span className="text-white font-bold">{vault.creator.slice(0, 6)}...{vault.creator.slice(-4)}</span></p>
-            <p className="text-blue-300 font-futuristic text-sm">Vault Address: <span className="text-white font-mono">{vault.address.slice(0, 8)}...{vault.address.slice(-6)}</span></p>
-          </div>
-          <div className="flex gap-4 items-center">
-            <span className="font-futuristic text-blue-300">Participants: <span className="text-white font-bold">{vault.participants.length}</span></span>
-            <span className="font-futuristic text-green-300">Accepted: <span className="text-white font-bold">{vault.acceptedParticipants.length}</span></span>
-            <span className="font-futuristic text-red-300">Rejected: <span className="text-white font-bold">{vault.rejectedParticipants.length}</span></span>
+        <div className="bg-[#232c3b] border-2 border-[#3673F5] rounded-2xl p-8 shadow-xl">
+          <div className="flex flex-col gap-6">
+            {/* Vault Address Section */}
+            <div className="flex items-center gap-3 pb-4 border-b border-[#3673F5]/20">
+              <div className="flex-1">
+                <div className="flex items-center gap-2">
+                  <p className="text-blue-300 font-futuristic text-lg">Vault Address:</p>
+                  <code className="text-white font-mono text-sm">{vault.address.slice(0, 8)}...{vault.address.slice(-6)}</code>
+                  <button 
+                    onClick={() => {
+                      navigator.clipboard.writeText(vault.address);
+                      alert('Address copied to clipboard!');
+                    }}
+                    className="p-1 hover:bg-[#3673F5]/20 rounded-lg transition-colors"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#7ecbff]"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Creator and Participants Section */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-[#181f2a] rounded-xl p-4 border border-[#3673F5]/20">
+                <div className="flex items-center gap-2 mb-2">
+                  <User className="text-[#3673F5]" size={20} />
+                  <span className="text-blue-300 font-futuristic">Creator</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <code className="text-white font-mono text-sm">{vault.creator.slice(0, 6)}...{vault.creator.slice(-4)}</code>
+                  <button 
+                    onClick={() => {
+                      navigator.clipboard.writeText(vault.creator);
+                      alert('Creator address copied to clipboard!');
+                    }}
+                    className="p-1 hover:bg-[#3673F5]/20 rounded-lg transition-colors"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#7ecbff]"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <div className="bg-[#181f2a] rounded-xl p-4 border border-[#3673F5]/20">
+                <div className="flex items-center gap-2 mb-2">
+                  <Users className="text-[#3673F5]" size={20} />
+                  <span className="text-blue-300 font-futuristic">Participants</span>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <div className="bg-green-900/40 text-green-300 px-3 py-1 rounded-full text-sm font-futuristic">
+                    Accepted: {vault.acceptedParticipants.length}
+                  </div>
+                  <div className="bg-yellow-900/40 text-yellow-300 px-3 py-1 rounded-full text-sm font-futuristic">
+                    Pending: {vault.participants.length - vault.acceptedParticipants.length - vault.rejectedParticipants.length}
+                  </div>
+                  <div className="bg-red-900/40 text-red-300 px-3 py-1 rounded-full text-sm font-futuristic">
+                    Rejected: {vault.rejectedParticipants.length}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         {/* Your Status Box */}
@@ -278,7 +378,18 @@ export default function VaultPage() {
             {participantDetails.map((p, i) => (
               <div key={i} className="flex justify-between bg-[#181f2a] p-3 rounded-lg border border-[#3673F5] items-center">
                 <div className="flex items-center space-x-3">
-                  <span className="font-mono text-sm text-white">{p.address.slice(0,6)}…{p.address.slice(-4)}</span>
+                  <div className="flex items-center gap-2">
+                    <code className="font-mono text-sm text-white">{p.address.slice(0,6)}…{p.address.slice(-4)}</code>
+                    <button 
+                      onClick={() => {
+                        navigator.clipboard.writeText(p.address);
+                        alert('Address copied to clipboard!');
+                      }}
+                      className="p-1 hover:bg-[#3673F5]/20 rounded-lg transition-colors"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#7ecbff]"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                    </button>
+                  </div>
                   {p.address.toLowerCase() === vault.creator.toLowerCase() && <span className="bg-purple-900 text-purple-300 text-xs px-2 py-1 rounded-full font-futuristic">Creator</span>}
                   {p.address.toLowerCase() === address?.toLowerCase() && <span className="bg-blue-900 text-blue-300 text-xs px-2 py-1 rounded-full font-futuristic">You</span>}
                 </div>
